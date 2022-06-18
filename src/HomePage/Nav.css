@@ -1,0 +1,19 @@
+.Nav_main{
+    display: flex;
+    justify-content: space-between;
+}
+.Nav_logo_img{
+    height : 35px;
+}
+
+.Nav_centerContents{
+    display: flex;
+    flex: 0.8;
+    justify-content: space-around;
+}
+
+.Nav_rightSide_contents{
+    display: flex;
+    justify-content: space-around;
+    flex: 0.2;
+}
