@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import "./Nav.css"
 import MyntraPic from "./Myntra_logo.png"
+import { AudioOutlined } from '@ant-design/icons';
+import { Input, Space } from 'antd';
 
+import {UserOutlined, HeartTwoTone , ShoppingTwoTone} from '@ant-design/icons';
+
+const { Search } = Input;
 import { Button, Popover } from 'antd';
 
 
@@ -56,15 +61,18 @@ let contentFilteredForClassification = navCenterData.filter((e)=>{return e.class
             </div>
             <div className="Nav_centerContents">
                 {[...new Set(navCenterData.map(e=>e.classification))].map(e=>(
-                    <Popover content={content(e)} title="Title">
+                    <Popover content={content(e)} title="Title" trigger={"click"}>
                         <p>{e}</p>
                   </Popover>
              
                 ))}
-            </div>       
+            </div>     
+            <div>
+            <Search placeholder="input search text"  enterButton />
+                </div>  
             <div className="Nav_rightSide_contents">
               {rightData.map(e=>(
-                  <p>{e}</p>
+                  <p style={{display: 'flex' , flexDirection: 'column-reverse'}}>{e} <span >{e == "Profile" ? <UserOutlined /> : e == "Wishlist" ? <HeartTwoTone /> : <ShoppingTwoTone />}</span></p>
               ))}
             </div>     
         </div>
