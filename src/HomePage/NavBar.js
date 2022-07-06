@@ -34,7 +34,7 @@ const [navCenterData , setnavCenterData] = useState([]);
 
 useEffect(()=>{
    async function getCenterData(){
-        let fetcheddata = await fetch("https://rcz-vam-1.herokuapp.com/api/shopData");
+        let fetcheddata = await fetch("https://rcz-vam-1.herokuapp.com/api/myntraDataAll");
         let converetedRedabledata = await fetcheddata.json();
         setnavCenterData(converetedRedabledata);
     };
@@ -42,9 +42,9 @@ useEffect(()=>{
         
 },[])
 
-const content =(classification)=>{
+const content =(Gender)=>{
     debugger
-let contentFilteredForClassification = navCenterData.filter((e)=>{return e.classification == classification}).map(e=>e.category);
+let contentFilteredForClassification = navCenterData.filter((e)=>{return e.Gender == Gender}).map(e=>e.ProductName);
 
     return (
     <div>
@@ -60,7 +60,7 @@ let contentFilteredForClassification = navCenterData.filter((e)=>{return e.class
                 <img className="Nav_logo_img" src={MyntraPic}></img>
             </div>
             <div className="Nav_centerContents">
-                {[...new Set(navCenterData.map(e=>e.classification))].map(e=>(
+                {[...new Set(navCenterData.map(e=>e.Gender))].map(e=>(
                     <Popover content={content(e)} title="Title" trigger={"click"}>
                         <p>{e}</p>
                   </Popover>

@@ -25,3 +25,9 @@
 .ant-popover-content{
     width: 88vw;
 }
+
+
+.ant-popover-inner-content{
+    max-height: 56vh;
+    overflow-y: scroll;
+}
