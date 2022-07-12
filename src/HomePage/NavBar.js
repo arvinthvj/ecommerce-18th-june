@@ -31,17 +31,69 @@ const rightData = [
 function NavBar(props) {
 
 const [navCenterData , setnavCenterData] = useState([]);
-
+const [whatChildrenToMap , setChildrenWhatToMap]  = useState([]);
+const [dataSetForBrandAndBrandnames , setDataSetForBrandAndBrandnames] = useState([]);
 useEffect(()=>{
    async function getCenterData(){
         let fetcheddata = await fetch("https://rcz-vam-1.herokuapp.com/api/myntraDataAll");
         let converetedRedabledata = await fetcheddata.json();
         setnavCenterData(converetedRedabledata);
+        let brandData = [];
+        let dataSetCreation = [...new Set(converetedRedabledata.map(r=> r.ProductBrand))].map(e=>{
+
+            let filterForCurrentLoopBrand = converetedRedabledata.filter(o=> o.ProductBrand == e);
+
+            
+            return {
+                value : e,
+                children : filterForCurrentLoopBrand.map(x=>{
+                    return {
+                        value : x.ProductName,
+                    }
+                })
+            }
+        });
+
+        setDataSetForBrandAndBrandnames(dataSetCreation);
+
     };
     getCenterData();
         
 },[])
-
+// const options = [
+//     {
+//       value: 'zhejiang',
+//       label: 'Zhejiang',
+//       children: [
+//         {
+//           value: 'hangzhou',
+//           label: 'Hangzhou',
+//           children: [
+//             {
+//               value: 'xihu',
+//               label: 'West Lake',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//     {
+//       value: 'jiangsu',
+//       label: 'Jiangsu',
+//       children: [
+//         {
+//           value: 'nanjing',
+//           label: 'Nanjing',
+//           children: [
+//             {
+//               value: 'zhonghuamen',
+//               label: 'Zhong Hua Men',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ];
 const content =(Gender)=>{
     debugger
 let contentFilteredForClassification = navCenterData.filter((e)=>{return e.Gender == Gender}).map(e=>e.ProductName);
@@ -54,7 +106,14 @@ let contentFilteredForClassification = navCenterData.filter((e)=>{return e.Gende
     </div>
     )
 };
+
+const handleLayer =(vaueThatIsClicked)=>{
+    let filtered = dataSetForBrandAndBrandnames.filter(e=> e.value == vaueThatIsClicked);
+    setChildrenWhatToMap(filtered[0]);
+}
+
     return (
+        <>
         <div className="Nav_main">
             <div className="Nav-logo_left_content">
                 <img className="Nav_logo_img" src={MyntraPic}></img>
@@ -76,6 +135,23 @@ let contentFilteredForClassification = navCenterData.filter((e)=>{return e.Gende
               ))}
             </div>     
         </div>
+        <div className="cascadingWholeContainer">
+                {dataSetForBrandAndBrandnames.map(e=> (
+                    <>
+                    <div className="firstlayer">
+                   <p onClick={()=>{handleLayer(e.value)}}> {e.value} </p>
+                   <div className="secondlayer" >
+                   {
+                    whatChildrenToMap && whatChildrenToMap.value == e.value ? whatChildrenToMap.children.map(f=>(
+                      <p>{f.value}</p>
+                   ))
+                   : null}
+                   </div>
+                   </div>
+                    </>
+                ))}
+            </div> 
+        </>
     );
 }
 

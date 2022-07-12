@@ -31,3 +31,20 @@
     max-height: 56vh;
     overflow-y: scroll;
 }
+
+
+
+/* cascader css starts */
+.cascadingWholeContainer{
+    height: fit-content;
+    background-color: aquamarine;
+    width:fit-content;
+}
+
+.firstlayer{
+    display : flex;
+}
+
+.secondlayer {
+    padding-left:  3rem;
+}
