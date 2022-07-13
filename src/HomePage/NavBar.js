@@ -5,10 +5,21 @@ import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space } from 'antd';
 
 import {UserOutlined, HeartTwoTone , ShoppingTwoTone} from '@ant-design/icons';
-
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 const { Search } = Input;
 import { Button, Popover } from 'antd';
 
+
+
+
+const style = {
+    width: '100%',
+    maxWidth: 360,
+    bgcolor: 'background.paper',
+  };
 
 
 const centerNavData = [
@@ -46,9 +57,10 @@ useEffect(()=>{
             
             return {
                 value : e,
+                gender : converetedRedabledata.filter(brandObject=> brandObject.ProductBrand == e)[0].Gender,
                 children : filterForCurrentLoopBrand.map(x=>{
                     return {
-                        value : x.ProductName,
+                        value : x.ProductName, ...x
                     }
                 })
             }
@@ -96,14 +108,39 @@ useEffect(()=>{
 //   ];
 const content =(Gender)=>{
     debugger
-let contentFilteredForClassification = navCenterData.filter((e)=>{return e.Gender == Gender}).map(e=>e.ProductName);
 
+console.log(dataSetForBrandAndBrandnames)
     return (
-    <div>
-      {contentFilteredForClassification.map(e=>(
-          <p>{e}</p>
-      ))}
-    </div>
+        <div className="cascadingWholeContainer">
+        {dataSetForBrandAndBrandnames.filter(e=> e.gender == Gender).map(e=> (
+            <>
+            <div className="firstlayer">
+            <List sx={style} component="nav" aria-label="mailbox folders">
+      <ListItem onClick={()=>{handleLayer(e.value)}} button>
+        <ListItemText primary={e.value} />
+      </ListItem>
+      <Divider />
+    </List>
+            
+           {/* <p onClick={()=>{handleLayer(e.value)}}> {e.value} </p> */}
+           <div className="secondlayer" >
+           {
+            whatChildrenToMap && whatChildrenToMap.value == e.value ? whatChildrenToMap.children.map(f=>(
+                <>
+              <List sx={style} component="nav" aria-label="mailbox folders">
+      <ListItem button>
+        <ListItemText primary={f.value} />
+      </ListItem>
+      <Divider />
+    </List>
+    </>
+           ))
+           : null}
+           </div>
+           </div>
+            </>
+        ))}
+    </div> 
     )
 };
 
@@ -135,22 +172,7 @@ const handleLayer =(vaueThatIsClicked)=>{
               ))}
             </div>     
         </div>
-        <div className="cascadingWholeContainer">
-                {dataSetForBrandAndBrandnames.map(e=> (
-                    <>
-                    <div className="firstlayer">
-                   <p onClick={()=>{handleLayer(e.value)}}> {e.value} </p>
-                   <div className="secondlayer" >
-                   {
-                    whatChildrenToMap && whatChildrenToMap.value == e.value ? whatChildrenToMap.children.map(f=>(
-                      <p>{f.value}</p>
-                   ))
-                   : null}
-                   </div>
-                   </div>
-                    </>
-                ))}
-            </div> 
+       
         </>
     );
 }

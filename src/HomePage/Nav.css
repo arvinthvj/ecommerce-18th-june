@@ -22,9 +22,9 @@
 
 
 
-.ant-popover-content{
+/* .ant-popover-content{
     width: 88vw;
-}
+} */
 
 
 .ant-popover-inner-content{
@@ -37,7 +37,7 @@
 /* cascader css starts */
 .cascadingWholeContainer{
     height: fit-content;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     width:fit-content;
 }
 
